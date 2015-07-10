@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="proverbs">
+        <item>@string/msg_body_sample_0</item>
+        <item>@string/msg_body_sample_1</item>
+        <item>@string/msg_body_sample_2</item>
+        <item>@string/msg_body_sample_3</item>
+        <item>@string/msg_body_sample_4</item>
+        <item>@string/msg_body_sample_5</item>
+        <item>@string/msg_body_sample_6</item>
+        <item>@string/msg_body_sample_7</item>
+        <item>@string/msg_body_sample_8</item>
+        <item>@string/msg_body_sample_9</item>
+        <item>@string/msg_body_sample_10</item>
+        <item>@string/msg_body_sample_11</item>
+        <item>@string/msg_body_sample_12</item>
+        <item>@string/msg_body_sample_13</item>
+        <item>@string/msg_body_sample_14</item>
+        <item>@string/msg_body_sample_15</item>
+        <item>@string/msg_body_sample_16</item>
+        <item>@string/msg_body_sample_17</item>
+        <item>@string/msg_body_sample_18</item>
+        <item>@string/msg_body_sample_19</item>
+        <item>@string/msg_body_sample_20</item>
+        <item>@string/msg_body_sample_21</item>
+        <item>@string/msg_body_sample_22</item>
+        <item>@string/msg_body_sample_23</item>
+        <item>@string/msg_body_sample_24</item>
+        <item>@string/msg_body_sample_25</item>
+        <item>@string/msg_body_sample_26</item>
+        <item>@string/msg_body_sample_27</item>
+        <item>@string/msg_body_sample_28</item>
+        <item>@string/msg_body_sample_29</item>
+        <item>@string/msg_body_sample_30</item>
+    </string-array>
+</resources>

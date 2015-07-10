@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="msg_body_sample_0">컴퓨터가 이해할수 있는 코드는 어느 바보나 다 짤 수 있다. 좋은 프로그래머는 사람이 이해할 수 있는 코드를 짠다. -마틴 파울러.</string>
+    <string name="msg_body_sample_1">개발에서 "미친 것"이라는 것은 같은 일을 하고서 다른 결과를 기대하는 것이다. -Tom DeMarco, 아인슈타인을 인용하면서.</string>
+    <string name="msg_body_sample_2">"좋은 설계는 한 명의 천재보다 세 명의 범재를 요구한다. 나쁜 설계는 백명의 범재보다 한 명의 천재를 요구한다.\".</string>
+    <string name="msg_body_sample_3">하드웨어: 문제가 생겼을 때 발로 찰 수 있는 부분 -제프 페시스.</string>
+    <string name="msg_body_sample_4">소프트웨어를 모니터링하는 것은 소프트웨어의 기능 그 자체만큼 중요하다 -Nathon Marz.</string>
+    <string name="msg_body_sample_5">디버깅을 할 때, 초보는 올바른 코드를 더한다. 전문가는 필요없는 코드를 지운다. -리차드 패티스.</string>
+    <string name="msg_body_sample_6">재부팅은 마치 마법 같아요. 거의 모든 문제를 고쳐주거든요. -개렛 헤이젤.</string>
+    <string name="msg_body_sample_7">초보자에게 탑다운 프로그래밍 방식을 가르치는건 불가능하다. 그들은 어디가 위인지 모르기 때문이다. -C.A.R. Hoare.</string>
+    <string name="msg_body_sample_8">프로그래밍은 골프와 비슷하다. 점수는 공을 집어넣는게 아니라, 공을 집어넣기까지 몇 번을 쳤느냐에 결정된다는 점에서. -할란 밀스.</string>
+    <string name="msg_body_sample_9">컴퓨터가 생각할 수 있냐는 질문은 잠수함이 헤엄칠 수 있냐는 질문과 같다. -Edsger W. Dijkstra.</string>
+    <string name="msg_body_sample_10">더 빨리 가려면, 속도를 줄여야 한다. 궤도역학을 아는 사람은 모두 이 것을 알고 있다. -Scott Cherf.</string>
+    <string name="msg_body_sample_11">"완벽한 설계는 더 이상 추가할게 없는게 아니라, 더 이상 제거할게 없는것이다." -생떽쥐베리.</string>
+    <string name="msg_body_sample_12">앞으로 우리 연구실 대학원생들은 하루에 25시간씩 논문을 읽고 프로젝트를 하는걸로 하지. / 하지만 교수님 하루는 24시간 아닙니까? / 한 시간씩 일찍 일어나면 되잖나!.</string>
+    <string name="msg_body_sample_13">디버거는 버그 잡는 도구나 버그 잡는 사람을 뜻한다. 그럼 난 버그를 만드는 사람이니까 버거네.</string>
+    <string name="msg_body_sample_14">특정한 기술 분야에 집착하지 말고, 개별 상황에 알맞은 해법을 고를 수 있도록 광범위한 배경 지식과 경험을 충분히 쌓아두어야 한다. -데이브 토머스와 앤디 헌트, "실용주의 프로그래머".</string>
+    <string name="msg_body_sample_15">디버깅이 버그를 제거하는 과정이라면, 프로그래밍은 분명 그것들을 가져오는 작업일 것이다. -Edsger Wybe Dijkstra.</string>
+    <string name="msg_body_sample_16">소프트웨어 설계에는 두 개의 방법이 있다. 하나는 결함이 있을 수 없을 정도로 단순하게 만드는 방법이다. 다른 하나는, 분명한 결함을 눈치채기 어려울 정도로 복잡하게 만드는 방법이다. -Tony Hoare.</string>
+    <string name="msg_body_sample_17">과학자는 배우기 위해 개발하지만, 엔지니어는 개발하기 위해 배운다. -프레드 브룩스.</string>
+    <string name="msg_body_sample_18">무언가를 바꾸는게 두렵다면, 그건 그냥 디자인이 잘못된 것이다. -마틴 파울러.</string>
+    <string name="msg_body_sample_19">(남이 쓴)코드를 수정할 때 자신만의 스타일은 쓰지 않도록 한다. 코드의 일관성은 자신의 스타일보다 중요하다. 이 규칙을 따르면 삶이 편해지기 때문이다. -브라이언 캐니핸, "프로그래밍 수련법".</string>
+    <string name="msg_body_sample_20">좋은 프로그래머란, 일방통행 도로에서도 양쪽을 모두 보고 건너는 사람이다. -더그 린더.</string>
+    <string name="msg_body_sample_21">"좋은 아키텍쳐가 너무 비싸다고 생각한다면, 한번 나쁜 아키텍쳐를 써봐라" -Brian Foote와 Joseph Yoder.</string>
+    <string name="msg_body_sample_22">이해력은 다른 여러 수준의 경험이 상호 연관될 때 더 높아질 수 있다. 무엇도 당연히 여기지 않는 신참과, 다 안다고 생각하는 고참이 더 자주 소통할 때 해당된다. -칼 와익,칼린 로버츠,"Collective Mind in Organizations".</string>
+    <string name="msg_body_sample_23">새로운 상황에 들어설 때, 자신감은 그대로 두면서 전에 얻은 지식은 한편으로 밀어두어라. 제국의 역습에서 요다가 현명하게 지적했듯이, "배웠던 것은 잊어버려야 한다" -데이브 후버와 애디웨일 오시나이, "프로그래머의 길, 멘토에게 묻다".</string>
+    <string name="msg_body_sample_24">리눅스는 당신이 멍청한 일을 하는 것을 막아주지 않습니다. 당신이 제대로 된 일을 하는 것까지 막고 싶진 않으니까요. -더그 그윈.</string>
+    <string name="msg_body_sample_25">"합기도를 마스터하려면 얼마나 걸리나요?\" 수련 지망생이 묻는다. 여기에 대한 훌륭한 대답은 이것 뿐이다. "자네 얼마나 오래 살 것 같나?" - 조지 레너드, "달인".</string>
+    <string name="msg_body_sample_26">현명한 문제 제기는 이미 지혜의 절반이다. -프란시스 베이컨.</string>
+    <string name="msg_body_sample_27">이거 스택오버플로우에서 베낀 코드죠? / 그거 제가 쓴건데요 / 스택오버플로우가 왜 그 모양인지 알겠죠?.</string>
+    <string name="msg_body_sample_28">"People say nothing\'s impossible, but I do nothing everyday." -곰돌이 푸.</string>
+    <string name="msg_body_sample_29">recursion: n. See recursion.</string>
+    <string name="msg_body_sample_30">Talk is cheap. Show me the code. -리누스 토발즈.</string>
+</resources>
