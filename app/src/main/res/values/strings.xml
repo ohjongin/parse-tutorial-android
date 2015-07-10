@@ -16,4 +16,5 @@
     <string name="upload_object">Upload Object</string>
     <string name="query">Query</string>
     <string name="upload_file">Upload File</string>
+    <string name="upload_acl">Upload with ACL</string>
 </resources>

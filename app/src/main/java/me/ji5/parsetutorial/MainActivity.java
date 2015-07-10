@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_upload_object).setOnClickListener(this);
         findViewById(R.id.btn_query).setOnClickListener(this);
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
+        findViewById(R.id.btn_upload_acl).setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_upload_file:
                 onUploadFile();
+                break;
+            case R.id.btn_upload_acl:
+                onUploadAcl();
                 break;
         }
     }
@@ -196,6 +201,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Toast.makeText(MainActivity.this, "No Image Resource!!!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    protected void onUploadAcl() {
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(false);
+        acl.setPublicWriteAccess(false);
+        acl.setReadAccess(ParseUser.getCurrentUser(), true);
+        acl.setWriteAccess(ParseUser.getCurrentUser(), true);
+
+        ParseObject obj = new ParseObject("Data");
+
+        final String content = getContentText();
+
+        obj.put(COL_CONTENT, content);
+        obj.put(COL_USERNAME, ParseUser.getCurrentUser().getUsername());
+        obj.put(COL_CREATEDBY, ParseUser.getCurrentUser());
+        obj.setACL(acl);
+
+        obj.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    if (BuildConfig.DEBUG) e.printStackTrace();
+                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(MainActivity.this, "Upload success - " + content, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     protected String getContentText() {
