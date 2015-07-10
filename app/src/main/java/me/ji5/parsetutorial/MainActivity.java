@@ -1,8 +1,6 @@
 package me.ji5.parsetutorial;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -33,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected static final String COL_CONTENT = "content";
     protected static final String COL_USERNAME = "username";
+    protected static final String COL_CREATEDBY = "createdBy";
+    protected static final String COL_IMAGE = "image";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_signup).setOnClickListener(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
-        findViewById(R.id.btn_upload).setOnClickListener(this);
+        findViewById(R.id.btn_upload_object).setOnClickListener(this);
         findViewById(R.id.btn_query).setOnClickListener(this);
+        findViewById(R.id.btn_upload_file).setOnClickListener(this);
     }
 
     @Override
@@ -54,11 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_login:
                 onLogin();
                 break;
-            case R.id.btn_upload:
-                onUpload();
+            case R.id.btn_upload_object:
+                onUploadObject();
                 break;
             case R.id.btn_query:
                 onQuery();
+                break;
+            case R.id.btn_upload_file:
+                onUploadFile();
                 break;
         }
     }
@@ -103,17 +108,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    protected void onUpload() {
+    protected void onUploadObject() {
         ParseObject obj = new ParseObject("Data");
 
-        Random rand = new Random();
-        String[] proverbs = getResources().getStringArray(R.array.proverbs);
-        int pos = rand.nextInt(proverbs.length);
-
-        final String content = proverbs[pos];
+        final String content = getContentText();
 
         obj.put(COL_CONTENT, content);
         obj.put(COL_USERNAME, ParseUser.getCurrentUser().getUsername());
+        obj.put(COL_CREATEDBY, ParseUser.getCurrentUser());
 
         obj.saveInBackground(new SaveCallback() {
             @Override
@@ -147,10 +149,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 for (ParseObject obj : list) {
-                    Log.e(TAG, "[" + obj.get(USERNAME) + "]" + obj.get(COL_CONTENT));
+                    Log.e(TAG, "[" + obj.get(COL_USERNAME) + "]" + obj.get(COL_CONTENT));
                 }
             }
         });
+    }
+
+    protected void onUploadFile() {
+        byte[] photo_array = getBitmapArray(this);
+        if (photo_array != null) {
+            final ParseFile photoFile = new ParseFile(System.currentTimeMillis() + ".png", photo_array);
+            photoFile.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        if (BuildConfig.DEBUG) e.printStackTrace();
+                        Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        return;
+
+                    }
+
+                    ParseObject obj = new ParseObject("Data");
+
+                    final String content = getContentText();
+
+                    obj.put(COL_CONTENT, content);
+                    obj.put(COL_USERNAME, ParseUser.getCurrentUser().getUsername());
+                    obj.put(COL_CREATEDBY, ParseUser.getCurrentUser());
+                    obj.put(COL_IMAGE, photoFile);
+
+                    obj.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                if (BuildConfig.DEBUG) e.printStackTrace();
+                                Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                            Toast.makeText(MainActivity.this, "Upload success - " + content, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+            });
+        } else {
+            Toast.makeText(MainActivity.this, "No Image Resource!!!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected String getContentText() {
+        Random rand = new Random();
+        String[] proverbs = getResources().getStringArray(R.array.proverbs);
+        int pos = rand.nextInt(proverbs.length);
+
+        return proverbs[pos];
     }
 
     /**
@@ -159,10 +212,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @return 이미지 byte array
      */
     protected byte[] getBitmapArray(Context context) {
+        String [] res_name_array = {"heros.png", "hero_designer.png", "hero_developer.png", "hero_maker.png"};
         byte[] byte_array = null;
 
+        Random rand = new Random();
+        int pos = rand.nextInt(res_name_array.length);
+
         try {
-            InputStream is = context.getAssets().open("hero_developer.pgn");
+            InputStream is = context.getAssets().open(res_name_array[pos]);
             byte_array = readByteArray(is);
         } catch (IOException e) {
             e.printStackTrace();
