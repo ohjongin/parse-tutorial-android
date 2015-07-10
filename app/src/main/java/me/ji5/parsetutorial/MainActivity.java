@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * User정보와 Text만을 간단하게 등록
+     */
     protected void onUploadObject() {
         ParseObject obj = new ParseObject("Data");
 
@@ -136,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * 등록된 Data 중에서 로그인한 사용자가 올린 Data만 읽어오도록 Query
+     */
     protected void onQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Data");
         query.whereEqualTo(COL_USERNAME, USERNAME);
@@ -160,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * Object를 등록할때 asset 폴더에 있는 이미지를 포함해서 등록하도록 기능 추가
+     */
     protected void onUploadFile() {
         byte[] photo_array = getBitmapArray(this);
         if (photo_array != null) {
@@ -203,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * ACL(Access Control List) 기능을 사용해서 현재 로그인 사용자만 접근이 가능하도록 Object 등록
+     */
     protected void onUploadAcl() {
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(false);
@@ -234,6 +246,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * 테스트에 사용할 sample text를 random하게 읽어서 반환
+     *
+     * @return string resource에 있는 random text
+     */
     protected String getContentText() {
         Random rand = new Random();
         String[] proverbs = getResources().getStringArray(R.array.proverbs);
