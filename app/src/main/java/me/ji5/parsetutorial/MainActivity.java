@@ -30,11 +30,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected static final String USERNAME = "ohjongin";
     protected static final String PASSWORD = "1234567890";
     protected static final String EMAIL = "ohjongin@gmail.com";
+    protected static final String NAME = "오종인";
 
     protected static final String COL_CONTENT = "content";
     protected static final String COL_USERNAME = "username";
     protected static final String COL_CREATEDBY = "createdBy";
     protected static final String COL_IMAGE = "image";
+    protected static final String COL_DISPLAYNAME = "displayName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user.setUsername(USERNAME);
         user.setPassword(PASSWORD);
         user.setEmail(EMAIL);
+        user.put(COL_DISPLAYNAME, NAME);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
