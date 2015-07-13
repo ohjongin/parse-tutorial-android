@@ -24,27 +24,16 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    protected static final String TAG = "MainActivity";
+import me.ji5.parsetutorial.common.Consts;
 
-    protected static final String USERNAME = "ohjongin";
-    protected static final String PASSWORD = "1234567890";
-    protected static final String EMAIL = "ohjongin@gmail.com";
-    protected static final String NAME = "오종인";
-
-    protected static final String COL_CONTENT = "content";
-    protected static final String COL_USERNAME = "username";
-    protected static final String COL_CREATEDBY = "createdBy";
-    protected static final String COL_IMAGE = "image";
-    protected static final String COL_DISPLAYNAME = "displayName";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, Consts {
+    protected static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.btn_signup).setOnClickListener(this);
-        findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_upload_object).setOnClickListener(this);
         findViewById(R.id.btn_query).setOnClickListener(this);
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
@@ -54,12 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_signup:
-                onSignUp();
-                break;
-            case R.id.btn_login:
-                onLogin();
-                break;
             case R.id.btn_upload_object:
                 onUploadObject();
                 break;
@@ -73,47 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 onUploadAcl();
                 break;
         }
-    }
-
-    protected void onSignUp() {
-        final ParseUser user = new ParseUser();
-
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
-        user.setEmail(EMAIL);
-        user.put(COL_DISPLAYNAME, NAME);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    if (BuildConfig.DEBUG) e.printStackTrace();
-                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Toast.makeText(MainActivity.this, "Registered! - " + user.getUsername(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    protected void onLogin() {
-        ParseUser.logInInBackground(USERNAME, PASSWORD, new LogInCallback() {
-            @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                if (e != null) {
-                    if (BuildConfig.DEBUG) e.printStackTrace();
-                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (parseUser == null) {
-                    Toast.makeText(MainActivity.this, "The user info is null!!!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Toast.makeText(MainActivity.this, "Login success - " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     /**
