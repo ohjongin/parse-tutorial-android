@@ -3,11 +3,8 @@ package me.ji5.parsetutorial;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
@@ -58,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_signup).setOnClickListener(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_upload_object).setOnClickListener(this);
+        findViewById(R.id.btn_query_object).setOnClickListener(this);
+        findViewById(R.id.btn_update_object).setOnClickListener(this);
+        findViewById(R.id.btn_delete_object).setOnClickListener(this);
         findViewById(R.id.btn_query_all_objects).setOnClickListener(this);
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
         findViewById(R.id.btn_upload_acl).setOnClickListener(this);
@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
-        hideTextViews();
-
         switch (v.getId()) {
             case R.id.btn_signup:
                 onSignUp();
@@ -138,13 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "The user info is null!!!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                // Toast.makeText(MainActivity.this, "Login success - " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
 
-                TextView tv = (TextView) findViewById(R.id.tv_user);
-                tv.setText("Login success\n");
-                tv.append(ParseUser.getCurrentUser().getUsername() + "\n");
-                tv.append(ParseUser.getCurrentUser().getEmail());
-                tv.setVisibility(View.VISIBLE);
+                Toast.makeText(MainActivity.this, "Login success - " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Login successfully.");
             }
         });
     }
@@ -171,8 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 mObjectId = obj.getObjectId();
-                if (mObjectId != null && !TextUtils.isEmpty(mObjectId))
-                    enableRUDButtons();
 
                 Toast.makeText(MainActivity.this, "Upload success - " + content, Toast.LENGTH_LONG).show();
             }
@@ -198,10 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                TextView tv = (TextView) findViewById(R.id.tv_query_result);
-                tv.setText("Query success\n");
-                tv.append("[" + parseObject.get(COL_USERNAME) + "]" + parseObject.get(COL_CONTENT) + "\n");
-                tv.setVisibility(View.VISIBLE);
+                Toast.makeText(MainActivity.this, "Query success - [" + parseObject.get(COL_USERNAME) + "]" + parseObject.get(COL_CONTENT) + "\n", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -273,8 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
 
                         Toast.makeText(MainActivity.this, "Delete a object successfully.", Toast.LENGTH_LONG).show();
-
-                        disableRUDButtons();
                     }
                 });
             }
@@ -302,15 +288,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                TextView tv = (TextView) findViewById(R.id.tv_query_all_results);
-                tv.setText("Query success\n");
+                Log.e(TAG, "Query success\n");
 
                 for (ParseObject obj : list) {
                     Log.e(TAG, "[" + obj.get(COL_USERNAME) + "]" + obj.get(COL_CONTENT));
-                    tv.append("[" + obj.get(COL_USERNAME) + "]" + obj.get(COL_CONTENT) + "\n");
                 }
-
-                tv.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -444,46 +426,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             output.write(buffer, 0, bytesRead);
         }
         return output.toByteArray();
-    }
-
-    /**
-     * 로그인 결과와 Query 결과를 보여주는 TextView를 초기화하고 hide시킨다.
-     */
-    private void hideTextViews() {
-        TextView tvUser = (TextView) findViewById(R.id.tv_user);
-        TextView tvResult = (TextView) findViewById(R.id.tv_query_result);
-        TextView tvAllResult = (TextView) findViewById(R.id.tv_query_all_results);
-
-        tvUser.setText("");
-        tvUser.setVisibility(View.GONE);
-        tvResult.setText("");
-        tvResult.setVisibility(View.GONE);
-        tvAllResult.setText("");
-        tvAllResult.setVisibility(View.GONE);
-    }
-
-    /**
-     * Object READ, UPDATE, DELETE buttons을 활성화
-     */
-    private void enableRUDButtons() {
-        Button btnQuery = (Button) findViewById(R.id.btn_query_object);
-        btnQuery.setEnabled(true);
-        btnQuery.setOnClickListener(this);
-        Button btnUpdate = (Button) findViewById(R.id.btn_update_object);
-        btnUpdate.setEnabled(true);
-        btnUpdate.setOnClickListener(this);
-        Button btnDelete = (Button) findViewById(R.id.btn_delete_object);
-        btnDelete.setEnabled(true);
-        btnDelete.setOnClickListener(this);
-
-    }
-
-    /**
-     * Object READ, UPDATE, DELETE buttons을 비활성화
-     */
-    private void disableRUDButtons() {
-        findViewById(R.id.btn_query_object).setEnabled(false);
-        findViewById(R.id.btn_update_object).setEnabled(false);
-        findViewById(R.id.btn_delete_object).setEnabled(false);
     }
 }
