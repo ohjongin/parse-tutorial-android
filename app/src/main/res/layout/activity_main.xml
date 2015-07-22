@@ -22,16 +22,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login"/>
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/btn_upload_object"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/upload_object"/>
+
         <Button
-            android:id="@+id/btn_query"
+            android:id="@+id/btn_query_object"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/query"/>
+            android:enabled="false"
+            android:text="@string/query_object"/>
+
+        <Button
+            android:id="@+id/btn_update_object"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/update_object"/>
+
+        <Button
+            android:id="@+id/btn_delete_object"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/delete_object"/>
+
+        <TextView
+            android:id="@+id/tv_query_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_query_all_objects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/query_all_objects"/>
+
+        <TextView
+            android:id="@+id/tv_query_all_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/btn_upload_file"
             android:layout_width="wrap_content"

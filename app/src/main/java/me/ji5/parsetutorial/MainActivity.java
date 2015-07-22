@@ -3,11 +3,16 @@ package me.ji5.parsetutorial;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -38,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected static final String COL_IMAGE = "image";
     protected static final String COL_DISPLAYNAME = "displayName";
 
+    /**
+     *  ParseObject를 사용해서 C(Create), R(Read), U(Update), D(Delete)를 하기 위해
+     *  필요한 Object ID
+     *  Object를 upload(CREATE)할 때 생성 된다.
+     */
+    private String mObjectId = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +58,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_signup).setOnClickListener(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_upload_object).setOnClickListener(this);
-        findViewById(R.id.btn_query).setOnClickListener(this);
+        findViewById(R.id.btn_query_all_objects).setOnClickListener(this);
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
         findViewById(R.id.btn_upload_acl).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+
+        hideTextViews();
+
         switch (v.getId()) {
             case R.id.btn_signup:
                 onSignUp();
@@ -63,8 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_upload_object:
                 onUploadObject();
                 break;
-            case R.id.btn_query:
-                onQuery();
+            case R.id.btn_query_object:
+                onQueryObject();
+                break;
+            case R.id.btn_update_object:
+                onUpdateObject();
+                break;
+            case R.id.btn_delete_object:
+                onDeleteObject();
+                break;
+            case R.id.btn_query_all_objects:
+                onQueryAllObjects();
                 break;
             case R.id.btn_upload_file:
                 onUploadFile();
@@ -96,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * USERNAME과 PASSWORD로 로그인을 한 후
+     * USER에 대한 정보를 TextView를 사용해서 화면에 보여준다.
+     */
     protected void onLogin() {
         ParseUser.logInInBackground(USERNAME, PASSWORD, new LogInCallback() {
             @Override
@@ -110,8 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "The user info is null!!!", Toast.LENGTH_LONG).show();
                     return;
                 }
+                // Toast.makeText(MainActivity.this, "Login success - " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
 
-                Toast.makeText(MainActivity.this, "Login success - " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_LONG).show();
+                TextView tv = (TextView) findViewById(R.id.tv_user);
+                tv.setText("Login success\n");
+                tv.append(ParseUser.getCurrentUser().getUsername() + "\n");
+                tv.append(ParseUser.getCurrentUser().getEmail());
+                tv.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -120,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * User정보와 Text만을 간단하게 등록
      */
     protected void onUploadObject() {
-        ParseObject obj = new ParseObject("Data");
+        final ParseObject obj = new ParseObject("Data");
 
         final String content = getContentText();
 
@@ -137,15 +170,122 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
+                mObjectId = obj.getObjectId();
+                if (mObjectId != null && !TextUtils.isEmpty(mObjectId))
+                    enableRUDButtons();
+
                 Toast.makeText(MainActivity.this, "Upload success - " + content, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     /**
-     * 등록된 Data 중에서 로그인한 사용자가 올린 Data만 읽어오도록 Query
+     * upload object로 Object를 생성한 것을 query로 보여 줌.
      */
-    protected void onQuery() {
+    protected void onQueryObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Data");
+        query.getInBackground(mObjectId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e != null) {
+                    if (BuildConfig.DEBUG) e.printStackTrace();
+                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (parseObject == null) {
+                    Toast.makeText(MainActivity.this, "The Object with " + mObjectId + ", is null.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                TextView tv = (TextView) findViewById(R.id.tv_query_result);
+                tv.setText("Query success\n");
+                tv.append("[" + parseObject.get(COL_USERNAME) + "]" + parseObject.get(COL_CONTENT) + "\n");
+                tv.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * upload object로 생성한 object의 내용을
+     * 다른 content와 "anonymous"라는 사용자 이름으로 update.
+     */
+    protected void onUpdateObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Data");
+        query.getInBackground(mObjectId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject obj, ParseException e) {
+                if (e != null) {
+                    if (BuildConfig.DEBUG) e.printStackTrace();
+                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (obj == null) {
+                    Toast.makeText(MainActivity.this, "The Object with " + mObjectId + ", is null.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Content를 아래의 문장으로 수정함.
+                obj.put(COL_CONTENT, "Parse.com을 사용하는 것은 android 개발자에게 날개를 달아 주는 것이다.");
+                obj.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            if (BuildConfig.DEBUG) e.printStackTrace();
+                            Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        Toast.makeText(MainActivity.this, "Update a object successfully.", Toast.LENGTH_LONG).show();
+                        onQueryObject();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * upload object로 Object를 생성한 것을 query로 보여 줌.
+     */
+    protected void onDeleteObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Data");
+        query.getInBackground(mObjectId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject obj, ParseException e) {
+                if (e != null) {
+                    if (BuildConfig.DEBUG) e.printStackTrace();
+                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (obj == null) {
+                    Toast.makeText(MainActivity.this, "The Object with " + mObjectId + ", is null.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                obj.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            if (BuildConfig.DEBUG) e.printStackTrace();
+                            Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        Toast.makeText(MainActivity.this, "Delete a object successfully.", Toast.LENGTH_LONG).show();
+
+                        disableRUDButtons();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 등록된 Data 중에서 로그인한 사용자가 올린 Data만 읽어오고
+     * 화면에 결과를 보여준다.
+     */
+    protected void onQueryAllObjects() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Data");
         query.whereEqualTo(COL_USERNAME, USERNAME);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -162,9 +302,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
+                TextView tv = (TextView) findViewById(R.id.tv_query_all_results);
+                tv.setText("Query success\n");
+
                 for (ParseObject obj : list) {
                     Log.e(TAG, "[" + obj.get(COL_USERNAME) + "]" + obj.get(COL_CONTENT));
+                    tv.append("[" + obj.get(COL_USERNAME) + "]" + obj.get(COL_CONTENT) + "\n");
                 }
+
+                tv.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -298,5 +444,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             output.write(buffer, 0, bytesRead);
         }
         return output.toByteArray();
+    }
+
+    /**
+     * 로그인 결과와 Query 결과를 보여주는 TextView를 초기화하고 hide시킨다.
+     */
+    private void hideTextViews() {
+        TextView tvUser = (TextView) findViewById(R.id.tv_user);
+        TextView tvResult = (TextView) findViewById(R.id.tv_query_result);
+        TextView tvAllResult = (TextView) findViewById(R.id.tv_query_all_results);
+
+        tvUser.setText("");
+        tvUser.setVisibility(View.GONE);
+        tvResult.setText("");
+        tvResult.setVisibility(View.GONE);
+        tvAllResult.setText("");
+        tvAllResult.setVisibility(View.GONE);
+    }
+
+    /**
+     * Object READ, UPDATE, DELETE buttons을 활성화
+     */
+    private void enableRUDButtons() {
+        Button btnQuery = (Button) findViewById(R.id.btn_query_object);
+        btnQuery.setEnabled(true);
+        btnQuery.setOnClickListener(this);
+        Button btnUpdate = (Button) findViewById(R.id.btn_update_object);
+        btnUpdate.setEnabled(true);
+        btnUpdate.setOnClickListener(this);
+        Button btnDelete = (Button) findViewById(R.id.btn_delete_object);
+        btnDelete.setEnabled(true);
+        btnDelete.setOnClickListener(this);
+
+    }
+
+    /**
+     * Object READ, UPDATE, DELETE buttons을 비활성화
+     */
+    private void disableRUDButtons() {
+        findViewById(R.id.btn_query_object).setEnabled(false);
+        findViewById(R.id.btn_update_object).setEnabled(false);
+        findViewById(R.id.btn_delete_object).setEnabled(false);
     }
 }
