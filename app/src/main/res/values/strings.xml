@@ -14,7 +14,16 @@
     <string name="signup">SignUp</string>
     <string name="login">Login</string>
     <string name="upload_object">Upload Object</string>
-    <string name="query">Query</string>
+    <string name="query_object">Query one</string>
+    <string name="query_all_objects">Query All</string>
+    <string name="update_object">Update one</string>
+    <string name="delete_object">Delete one</string>
     <string name="upload_file">Upload File</string>
     <string name="upload_acl">Upload with ACL</string>
+
+    <!-- hint area -->
+    <string name="hint_username">USER NAME</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="hint_email">E-MAIL</string>
+    <string name="hint_display_name">NICKNAME</string>
 </resources>
