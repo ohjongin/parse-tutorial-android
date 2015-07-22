@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    protected static final String TAG = "MainActivity";
+    protected static final String TAG = MainActivity.class.getSimpleName();
 
     protected static final String USERNAME = "ohjongin";
     protected static final String PASSWORD = "1234567890";
@@ -69,12 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideTextViews();
 
         switch (v.getId()) {
-            case R.id.btn_signup:
-                onSignUp();
-                break;
-            case R.id.btn_login:
-                onLogin();
-                break;
             case R.id.btn_upload_object:
                 onUploadObject();
                 break;

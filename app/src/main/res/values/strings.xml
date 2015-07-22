@@ -20,4 +20,10 @@
     <string name="delete_object">Delete one</string>
     <string name="upload_file">Upload File</string>
     <string name="upload_acl">Upload with ACL</string>
+
+    <!-- hint area -->
+    <string name="hint_username">USER NAME</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="hint_email">E-MAIL</string>
+    <string name="hint_display_name">NICKNAME</string>
 </resources>
