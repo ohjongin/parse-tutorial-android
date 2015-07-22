@@ -27,7 +27,7 @@
             android:id="@+id/tv_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|top"
+            android:gravity="start|top"
             android:padding="8dp"
             android:visibility="gone"/>
 
@@ -62,7 +62,7 @@
             android:id="@+id/tv_query_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|top"
+            android:gravity="start|top"
             android:padding="8dp"
             android:visibility="gone"/>
 
@@ -76,7 +76,7 @@
             android:id="@+id/tv_query_all_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|top"
+            android:gravity="start|top"
             android:padding="8dp"
             android:visibility="gone"/>
 

@@ -69,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideTextViews();
 
         switch (v.getId()) {
+            case R.id.btn_signup:
+                onSignUp();
+                break;
+            case R.id.btn_login:
+                onLogin();
+                break;
             case R.id.btn_upload_object:
                 onUploadObject();
                 break;
